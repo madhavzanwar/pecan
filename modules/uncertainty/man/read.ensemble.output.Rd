@@ -31,7 +31,8 @@ read.ensemble.output(
 If NULL, will attempt to read IDs from a file named "samples.Rdata" in \code{pecandir}}
 }
 \value{
-a list of ensemble model output
+a list of ensemble model output, one value per member.
+A member with no output for the requested variables gets \code{NA} and a warning.
 }
 \description{
 Reads output for an ensemble of length specified by \code{ensemble.size} and bounded by \code{start.year}

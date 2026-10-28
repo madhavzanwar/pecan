@@ -1,5 +1,6 @@
 # PEcAn.uncertainty 1.9.0.9000
 
+* `read.ensemble.output()` now returns `NA`, with a warning, for an ensemble member that has no output for the requested variables. Previously it returned the previous member's result, because variables read for one member stayed visible while evaluating the next (#4204).
 * In `run.sensitivity.analysis()`, load `samples` once before the variables loop, avoiding repeated disk reads (#3859).
 * `get.ensemble.samples()` now again returns a list of dataframes as it did
   before v1.9.0. The returned list also now has attribute `sampled.indices`,
