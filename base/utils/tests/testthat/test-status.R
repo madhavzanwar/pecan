@@ -61,3 +61,17 @@ test_that("status.check returns 0 on bad filename", {
 	expect_equal(status.check("NOFILE"), 0L)
 	expect_equal(status.check("NOFILE", file.path(withr::local_tempdir(), "fake")), 0L)
 })
+
+test_that("status.check uses the most recent record of a repeated module", {
+	f <- withr::local_tempfile()
+	status.start("A", f)
+	status.end("ERROR", f)
+	status.start("A", f)
+	status.end("DONE", f)
+	expect_equal(status.check("A", f), 1L)
+
+	status.start("A", f)
+	status.end("ERROR", f)
+	expect_equal(status.check("A", f), -1L)
+	expect_equal(status.check("B", f), 0L)
+})

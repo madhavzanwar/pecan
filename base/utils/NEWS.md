@@ -2,6 +2,7 @@
 
 ## Fixed
 
+* `status.check()` no longer fails with "duplicate 'row.names'" when a module appears more than once in a STATUS file; the most recent record is used (#4253, @madhavzanwar).
 * `match_file()` now matches prefixes only at the beginning of filenames (#496, @Shubham-Padkonde).
 
 ## Changed

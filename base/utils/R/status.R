@@ -74,20 +74,23 @@ status.check <- function(name, file = NULL) {
     return(0L)
   }
   status_data <- utils::read.table(
-    file, row.names = 1, header = FALSE,
+    file, header = FALSE, colClasses = "character",
     sep = "\t", quote = "", fill = TRUE)
-  if (!name %in% row.names(status_data)) {
+  # A module can be recorded more than once (e.g. when a workflow is rerun
+  # without clearing STATUS): use its most recent record.
+  rows <- which(status_data[[1]] == name)
+  if (length(rows) == 0) {
     return(0L)
   }
-  status_data[name, ]
-  if (is.na(status_data[name, 3])) {
+  result <- status_data[[4]][max(rows)]
+  if (is.na(result)) {
     PEcAn.logger::logger.warn("UNKNOWN STATUS FOR", name)
     return(0L)
   }
-  if (status_data[name, 3] == "DONE") {
+  if (result == "DONE") {
     return(1L)
   }
-  if (status_data[name, 3] == "ERROR") {
+  if (result == "ERROR") {
     return(-1L)
   }
   return(0L)
